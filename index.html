@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Text Detector</title>
+<link rel="stylesheet" href="css.css">
+</head>
+<body>
+    <main>
+        <h1>Was this written by AI?</h1>
+        <p class="lede">Paste a piece of text below. A logistic regression model, trained on the wording patterns of thousands of human and AI-generated essays, will scan it and tell you what it finds.</p>
+
+        <form id="scanForm">
+            <label for="content">Text to check</label>
+            <textarea id="content" name="content" rows="8" placeholder="Paste an essay, paragraph, or article here..." required></textarea>
+            <button type="submit">Scan text</button>
+        </form>
+
+        <div id="scanCard" class="scan-card" hidden>
+            <div id="scanLine" class="scan-line"></div>
+            <p class="scan-url" id="scannedUrl"></p>
+            <p class="verdict" id="verdict"></p>
+        </div>
+
+        <p class="note">This is a machine learning estimate based on writing patterns alone. It is not proof of authorship. Use it as one signal, not a guarantee.</p>
+    </main>
+
+<script>
+    const BACKEND_URL = "https://ai-content-detector-XXXX.onrender.com";
+    if (Notification.permission !== "granted" && Notification.permission !== "denied") {
+    Notification.requestPermission();
+    }
+
+    window.addEventListener("load", () => {
+        fetch(BACKEND_URL)
+            .then(() => {
+                console.log("Backend warmed up");
+                if (Notification.permission === "granted") {
+                    new Notification("AI Text Detector is ready!", {
+                        body: "The backend has finished waking up — you can scan now."
+                    });
+                }
+            })
+            .catch(error => console.log("Backend warm-up:", error));
+    });
+
+    const form = document.getElementById("scanForm");
+    const scanCard = document.getElementById("scanCard");
+    const scannedUrl = document.getElementById("scannedUrl");
+    const verdict = document.getElementById("verdict");
+
+    form.addEventListener("submit", function (event) {
+        event.preventDefault();
+        const content = document.getElementById("content").value.trim();
+        if (!content) return;
+
+        scanCard.hidden = false;
+        scanCard.className = "scan-card scanning";
+        scannedUrl.textContent = content.length > 120 ? content.slice(0, 120) + "…" : content;
+        verdict.textContent = "Scanning… this may take up to a minute if the server was idle.";
+
+        fetch(BACKEND_URL + "/predict", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ text: content })
+        })
+            .then(response => response.json())
+            .then(data => {
+                const isAI = data.Predicted_outcome === 1 || data.Predicted_outcome === 1.0;
+                scanCard.className = "scan-card " + (isAI ? "danger" : "safe");
+                verdict.textContent = isAI
+                    ? "This looks like it was AI-generated."
+                    : "This looks like it was written by a human.";
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                scanCard.className = "scan-card danger";
+                verdict.textContent = "Couldn't reach the scanner. Try again in a moment.";
+            });
+    });
+</script>
+</body>
+</html>

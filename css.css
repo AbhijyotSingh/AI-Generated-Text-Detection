@@ -1,0 +1,156 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0f1115;
+    color: #eaeaea;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    padding: 24px;
+}
+
+main {
+    width: 100%;
+    max-width: 560px;
+}
+
+h1 {
+    font-size: 1.9rem;
+    margin-bottom: 8px;
+}
+
+.lede {
+    color: #a3a9b7;
+    line-height: 1.5;
+    margin-bottom: 28px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+label {
+    font-size: 0.85rem;
+    color: #a3a9b7;
+}
+
+textarea,
+input[type="text"] {
+    background: #171a21;
+    border: 1px solid #2a2f3a;
+    border-radius: 10px;
+    color: #eaeaea;
+    padding: 12px 14px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 140px;
+}
+
+textarea:focus,
+input[type="text"]:focus {
+    outline: none;
+    border-color: #5b8def;
+}
+
+button {
+    align-self: flex-start;
+    background: #5b8def;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+button:hover {
+    background: #4a7bdb;
+}
+
+.scan-card {
+    border: 1px solid #2a2f3a;
+    border-radius: 12px;
+    padding: 16px;
+    background: #171a21;
+    position: relative;
+    overflow: hidden;
+}
+
+.scan-card[hidden] {
+    display: none;
+}
+
+.scan-url {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.85rem;
+    color: #a3a9b7;
+    word-break: break-word;
+    margin: 0 0 8px;
+}
+
+.verdict {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.scan-line {
+    display: none;
+}
+
+.scan-card.scanning .scan-line {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: -40%;
+    width: 40%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #5b8def, transparent);
+    animation: sweep 1.1s linear infinite;
+}
+
+@keyframes sweep {
+    from { left: -40%; }
+    to { left: 100%; }
+}
+
+.scan-card.scanning .verdict {
+    color: #a3a9b7;
+    font-weight: 400;
+}
+
+.scan-card.safe {
+    border-color: #2f7a4d;
+    background: #12201a;
+}
+
+.scan-card.safe .verdict {
+    color: #4ad07f;
+}
+
+.scan-card.danger {
+    border-color: #7a2f2f;
+    background: #201212;
+}
+
+.scan-card.danger .verdict {
+    color: #f26363;
+}
+
+.note {
+    color: #6b7280;
+    font-size: 0.8rem;
+    margin-top: 18px;
+    line-height: 1.5;
+}
