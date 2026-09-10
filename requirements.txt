@@ -1,6 +1,6 @@
 flask
 flask-cors
-scikit-learn
+scikit-learn==1.7.0
 nltk
 numpy
 gunicorn

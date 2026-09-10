@@ -67,7 +67,7 @@
         })
             .then(response => response.json())
             .then(data => {
-                const isAI = data.Predicted_outcome === 1 || data.Predicted_outcome === 1.0;
+                const isAI = data.Predicted_outcome === "AI";
                 scanCard.className = "scan-card " + (isAI ? "danger" : "safe");
                 verdict.textContent = isAI
                     ? "This looks like it was AI-generated."

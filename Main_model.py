@@ -41,7 +41,7 @@ def predict_route():
     input_data = request.get_json()
     text = str(input_data["text"])
     result = predict(text)
-    return jsonify({"Predicted_outcome": int(result)})
+    return jsonify({"Predicted_outcome": str(result)})
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
