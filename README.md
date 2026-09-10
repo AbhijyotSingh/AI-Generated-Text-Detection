@@ -1,0 +1,1 @@
+This project tried to classify AI-generated and human-like text through NLP but it didn't really work that well.
