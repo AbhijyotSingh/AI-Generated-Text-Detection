@@ -9,7 +9,7 @@ from flask_cors import CORS
 import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-model_path = os.path.join(BASE_DIR, "Logistic_Regression.pk")
+model_path = os.path.join(BASE_DIR, "LogisticRegression.pk")
 vectorizer_path = os.path.join(BASE_DIR, "CountVectorizer.pk")
 
 with open(model_path, "rb") as file:
